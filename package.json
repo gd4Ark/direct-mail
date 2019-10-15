@@ -29,7 +29,20 @@
     "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/direct-mail.min.js",
     "precommit": "pretty-quick --staged",
     "stdver": "standard-version -m '[skip ci] chore(release): v%s'",
-    "release": "gren release --override"
+    "release": "gren release --override",
+    "lint": "eslint --ext .js ./",
+    "lint-fix": "eslint --ext .js ./ --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -37,9 +50,14 @@
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
+    "eslint": "^6.1.0",
+    "babel-eslint": "^10.0.3",
+    "eslint-config-fa": "0.0.8",
+    "eslint-plugin-jest": "^22.19.0",
     "github-release-notes": "^0.17.0",
-    "husky": "^0.14.3",
+    "husky": "^2.7.0",
     "jest": "^24.8.0",
+    "lint-staged": "^9.4.0",
     "minimist": "^1.2.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.4.1",

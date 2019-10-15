@@ -1,80 +1,95 @@
 const crypto = require('crypto')
 const axios = require('axios')
 
-function SingleSendMail(config = {}) {
+function directMail({ action = 'single', config = {}} = {}) {
+  const actions = {
+    single: SingleSendMail,
+    batch: BatchSendMail
+  }
   return new Promise((resolve, reject) => {
-    const AccessKeyId = config.AccessKeyId || process.env.ACCESS_KEY_ID
-    const AccessKeySecret =
-      config.AccessKeySecret || process.env.ACCESS_KEY_SECRET
-
-    const errorMsg = checkAccessKey({AccessKeyId, AccessKeySecret}).concat(
-      checkConfig(config, ['AccountName', 'ToAddress'])
-    )
-
-    if (errorMsg.length) {
-      reject(errorMsg.join(','))
+    if (actions[action]) {
+      const call = actions[action]
+      return call(config)
+        .then(resolve)
+        .catch(reject)
     }
+    reject(new Error('No matching action'))
+  })
+}
 
-    const paramsArray = getParamsArray(
-      Object.assign({}, config, {
-        AccessKeyId,
-        Action: 'SingleSendMail'
-      })
-    )
-
-    const signature = getSignature({paramsArray, AccessKeySecret})
-
-    request({signature, paramsArray})
-      .then(resolve)
-      .catch(reject)
+function SingleSendMail(config = {}) {
+  return handleSendMail({
+    config: Object.assign(config, {
+      Action: 'SingleSendMail'
+    }),
+    required: ['AccessKeyId', 'AccessKeySecret', 'AccountName', 'ToAddress']
   })
 }
 
 function BatchSendMail(config = {}) {
+  return handleSendMail({
+    config: Object.assign(config, {
+      Action: 'BatchSendMail'
+    }),
+    required: [
+      'AccessKeyId',
+      'AccessKeySecret',
+      'AccountName',
+      'TemplateName',
+      'ReceiversName'
+    ]
+  })
+}
+
+function handleSendMail({ config, required = [] }) {
+  config = mergeDefaultConfig(config)
+
+  const errorMsg = verifyRequired(config, required)
+
   return new Promise((resolve, reject) => {
-    const AccessKeyId = config.AccessKeyId || process.env.ACCESS_KEY_ID
-    const AccessKeySecret =
-      config.AccessKeySecret || process.env.ACCESS_KEY_SECRET
-
-    const errorMsg = checkAccessKey({AccessKeyId, AccessKeySecret}).concat(
-      checkConfig(config, ['AccountName', 'TemplateName', 'ReceiversName'])
-    )
-
     if (errorMsg.length) {
-      reject(errorMsg.join(','))
+      return reject(new Error(errorMsg.join(', ')))
     }
+    const params = getParams(config)
+    const { AccessKeySecret } = config
+    const signature = getSignature({
+      params,
+      AccessKeySecret
+    })
 
-    const paramsArray = getParamsArray(
-      Object.assign({}, config, {
-        AccessKeyId,
-        Action: 'BatchSendMail'
-      })
-    )
-
-    const signature = getSignature({paramsArray, AccessKeySecret})
-
-    request({signature, paramsArray})
+    request({ signature, params })
       .then(resolve)
       .catch(reject)
   })
 }
 
-// return error msg array
-function checkAccessKey(params = {AccessKeyId, AccessKeySecret}) {
-  return Object.keys(params)
-    .filter(key => !params[key])
-    .map(param => `${param} required`)
+function getDefaultConfig() {
+  const defaultKeys = {
+    AccessKeyId: process.env.ACCESS_KEY_ID,
+    AccessKeySecret: process.env.ACCESS_KEY_SECRET
+  }
+  return defaultKeys
 }
 
-// return error msg array
-function checkConfig(config = {}, params = []) {
-  return params
-    .filter(param => !config[param])
-    .map(param => `${param} required`)
+function mergeDefaultConfig(config, defaultConfig = null) {
+  defaultConfig = defaultConfig || getDefaultConfig()
+  Object.keys(defaultConfig).forEach(key => {
+    if (!config[key]) {
+      config[key] = defaultConfig[key]
+    }
+  })
+  return config
 }
 
-function getParamsArray(config) {
-  // https://help.aliyun.com/document_detail/29440.html?spm=a2c4g.11186623.6.592.20f13972khUg03
+function verifyRequired(config = {}, keys = []) {
+  return keys
+    .filter(key => !config[key])
+    .map(key => {
+      return `${key} required`
+    })
+}
+
+function getParams(config) {
   const defaultConfig = {
     Format: 'JSON',
     RegionId: 'cn-hangzhou',
@@ -87,18 +102,21 @@ function getParamsArray(config) {
     AddressType: 1
   }
 
-  const params = Object.assign({}, defaultConfig, config)
+  const params = {
+    ...config,
+    ...defaultConfig
+  }
 
   return Object.keys(params)
-    .map(
-      param =>
-        `${encodeURIComponent(param)}=${encodeURIComponent(params[param])}`
-    )
+    .map(param => {
+      const value = params[param]
+      return `${encodeURIComponent(param)}=${encodeURIComponent(value)}`
+    })
     .sort()
 }
 
-function getSignature({paramsArray, AccessKeySecret}) {
-  const signStr = 'POST&%2F&' + encodeURIComponent(paramsArray.join('&'))
+function getSignature({ params, AccessKeySecret }) {
+  const signStr = 'POST&%2F&' + encodeURIComponent(params.join('&'))
 
   const sign = crypto
     .createHmac('sha1', AccessKeySecret + '&')
@@ -108,18 +126,19 @@ function getSignature({paramsArray, AccessKeySecret}) {
   return encodeURIComponent(sign)
 }
 
-function request({signature, paramsArray}) {
+function request({ signature, params }) {
+  const URL = 'https://dm.aliyuncs.com/'
   return axios({
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     method: 'POST',
-    url: 'https://dm.aliyuncs.com/',
-    data: ['Signature=' + signature].concat(paramsArray).join('&')
+    url: URL,
+    data: ['Signature=' + signature].concat(params).join('&')
   })
 }
 
-module.exports = {
-  SingleSendMail,
-  BatchSendMail
-}
+directMail.single = SingleSendMail
+directMail.batch = BatchSendMail
+
+module.exports = directMail
