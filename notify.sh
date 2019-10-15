@@ -15,6 +15,6 @@ body=$(grep body < $resp_tmp_file | sed 's/\"body\"://g;s/\"//g')
 
 msg='{"msgtype": "markdown", "markdown": {"title": "direct-mail更新", "text": "@所有人\n# [direct-mail]('$html_url')\n'$body'"}}'
 
-curl -X POST https://oapi.dingtalk.com/robot/send\?access_token\=$DINGTALK_ROBOT_TOKEN -H 'Content-Type: application/json' -d "$msg"
+curl -X POST "https://oapi.dingtalk.com/robot/send\?access_token\=$DINGTALK_ROBOT_TOKEN" -H 'Content-Type: application/json' -d "$msg"
 
 rm $resp_tmp_file
