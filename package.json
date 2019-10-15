@@ -49,9 +49,10 @@
     "crypto": "^1.0.1"
   },
   "devDependencies": {
+    "all-contributors-cli": "^6.9.1",
+    "babel-eslint": "^10.0.3",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
-    "babel-eslint": "^10.0.3",
     "eslint-config-fa": "0.0.8",
     "eslint-plugin-jest": "^22.19.0",
     "github-release-notes": "^0.17.0",

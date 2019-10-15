@@ -24,7 +24,7 @@ Alibaba Cloud Email Service (direct mail) Node. js SDK (compatible with browser 
 - Compatible with Node.js/browser
 - Promise style
 - Support the following API
-- directMail distinguished by action, support for single and batch
+  - directMail distinguished by action, support for single and batch
   - SingleSendMail single mailing interface, supports sending triggers and other single Mail
   - BatchSendMail batch mailing interface supports sending batch mail by calling templates
 
@@ -55,8 +55,7 @@ const singleConfig = {
   AccessKeyId: process.env.ACCESS_KEY_SECRET
 }
 
-directMail
-  .single(singleConfig)
+directMail.single(singleConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -65,6 +64,7 @@ directMail
 
 ```javascript
 const directMail = require('@femessage/direct-mail')
+
 const batchConfig = {
   AccountName: 'yourmail@mail.com',
   ReceiversName: 'defaultReceivers',
@@ -72,8 +72,8 @@ const batchConfig = {
   AccessKeySecret: process.env.ACCESS_KEY_ID,
   AccessKeyId: process.env.ACCESS_KEY_SECRET
 }
-directMail
-  .BatchSendMail(batchConfig)
+
+directMail.batch(batchConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -98,7 +98,7 @@ const config = {
 directMail({
   	action: 'single',
   	config
-	})
+})
   .then(resp => {})
   .catch(err => {})
 ```
@@ -128,8 +128,8 @@ const config = {
   Subject: '标题',
   HtmlBody: '<html>内容</html>'
 }
-directMail
-  .SingleSendMail(config)
+
+directMail.single(config)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -155,15 +155,19 @@ In short, it is best not to have English input method special characters in the 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/levy9527/blog"><img src="https://avatars3.githubusercontent.com/u/9384365?v=4" width="100px;" alt="levy"/><br /><sub><b>levy</b></sub></a><br /><a href="https://github.com/FEMessage/direct-mail/commits?author=levy9527" title="Code">💻</a> <a href="https://github.com/FEMessage/direct-mail/commits?author=levy9527" title="Tests">⚠️</a> <a href="https://github.com/FEMessage/direct-mail/commits?author=levy9527" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/donhac"><img src="https://avatars0.githubusercontent.com/u/9813324?v=4" width="100px;" alt="donhac"/><br /><sub><b>donhac</b></sub></a><br /><a href="https://github.com/FEMessage/direct-mail/commits?author=donhac" title="Code">💻</a> <a href="https://github.com/FEMessage/direct-mail/commits?author=donhac" title="Documentation">📖</a> <a href="#infra-donhac" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    <td align="center"><a href="https://colmugx.github.io"><img src="https://avatars1.githubusercontent.com/u/21327913?v=4" width="100px;" alt="ColMugX"/><br /><sub><b>ColMugX</b></sub></a><br /><a href="https://github.com/FEMessage/direct-mail/commits?author=colmugx" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/levy9527/blog"><img src="https://avatars3.githubusercontent.com/u/9384365?v=4" width="100px;" alt="levy"/><br /><sub><b>levy</b></sub></a><br /><a href="https://github.com/gd4Ark/direct-mail/commits?author=levy9527" title="Code">💻</a> <a href="https://github.com/gd4Ark/direct-mail/commits?author=levy9527" title="Tests">⚠️</a> <a href="https://github.com/gd4Ark/direct-mail/commits?author=levy9527" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/donhac"><img src="https://avatars0.githubusercontent.com/u/9813324?v=4" width="100px;" alt="donhac"/><br /><sub><b>donhac</b></sub></a><br /><a href="https://github.com/gd4Ark/direct-mail/commits?author=donhac" title="Code">💻</a> <a href="https://github.com/gd4Ark/direct-mail/commits?author=donhac" title="Documentation">📖</a> <a href="#infra-donhac" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://colmugx.github.io"><img src="https://avatars1.githubusercontent.com/u/21327913?v=4" width="100px;" alt="ColMugX"/><br /><sub><b>ColMugX</b></sub></a><br /><a href="https://github.com/gd4Ark/direct-mail/commits?author=colmugx" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://4ark.me"><img src="https://avatars3.githubusercontent.com/u/27952659?s=460&v=4" width="100px;" alt="gd4Ark"/><br /><sub><b>gd4Ark</b></sub></a><br /><a href="https://github.com/gd4Ark/direct-mail/commits?author=gd4Ark" title="Code">💻</a> <a href="https://github.com/gd4Ark/direct-mail/commits?author=gd4Ark" title="Tests">⚠️</a> <a href="https://github.com/gd4Ark/direct-mail/commits?author=gd4Ark" title="Documentation">📖</a></td>
   </tr>
 </table>
 
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
