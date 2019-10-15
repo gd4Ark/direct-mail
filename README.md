@@ -27,8 +27,9 @@
 - 兼容 Node.js/浏览器端
 - Promise 风格
 - 支持以下 API
-  - SingleSendMail 单一发信接口，支持发送触发和其他单个邮件
-  - BatchSendMail 批量发信接口，支持通过调用模板的方式发送批量邮件
+  - directMail 发信接口，通过 `action` 参数区分类型
+  - directMail.single 单一发信接口，支持发送触发和其他单个邮件
+  - directMail.batch 批量发信接口，支持通过调用模板的方式发送批量邮件
 
 [⬆ Back to Top](#table-of-contents)
 
@@ -58,7 +59,7 @@ const singleConfig = {
 }
 
 directMail
-  .SingleSendMail(singleConfig)
+  .single(singleConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -77,7 +78,32 @@ const batchConfig = {
 }
 
 directMail
-  .BatchSendMail(batchConfig)
+  .batch(batchConfig)
+  .then(resp => {})
+  .catch(err => {})
+```
+
+### 直接通过 directMail 发送邮件
+
+通过传入 `action` 参数区分类型，可选参数为：`single` 、`batch`，默认为 `single`
+
+```js
+const directMail = require('@femessage/direct-mail')
+
+const config = {
+  AccountName: 'yourmail@mail.com',
+  FromAlias: '化名',
+  ToAddress: 'toaddress@mail.com',
+  Subject: '标题',
+  HtmlBody: '<html>内容</html>',
+  AccessKeySecret: process.env.ACCESS_KEY_ID,
+  AccessKeyId: process.env.ACCESS_KEY_SECRET
+}
+
+directMail({
+  	action: 'single',
+  	config
+	})
   .then(resp => {})
   .catch(err => {})
 ```
@@ -109,7 +135,7 @@ const config = {
 }
 
 directMail
-  .SingleSendMail(config)
+  .single(config)
   .then(resp => {})
   .catch(err => {})
 ```
