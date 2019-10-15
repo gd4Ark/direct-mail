@@ -1,6 +1,6 @@
 # direct-mail
 
-[![](https://cdn.nlark.com/yuque/0/2019/svg/224563/1561962031200-ee0155c3-814e-4e69-b76b-87f95dd7a378.svg#align=left&display=inline&height=20&originHeight=20&originWidth=97&size=0&status=done&width=97)](https://travis-ci.com/FEMessage/direct-mail)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c50d29f92ba4fdb81196dcbb679e37f)](https://www.codacy.com/manual/gd4Ark/direct-mail?utm_source=github.com&utm_medium=referral&utm_content=gd4Ark/direct-mail&utm_campaign=Badge_Grade)
 [![](https://img.shields.io/npm/dm/@femessage/direct-mail.svg#align=left&display=inline&height=20&originHeight=20&originWidth=134&status=done&width=134)](https://www.npmjs.com/package/@femessage/direct-mail)
 [![](https://img.shields.io/npm/v/@femessage/direct-mail.svg#align=left&display=inline&height=20&originHeight=20&originWidth=80&status=done&width=80)](https://www.npmjs.com/package/@femessage/direct-mail)
 [![](https://img.shields.io/npm/l/@femessage/direct-mail.svg#align=left&display=inline&height=20&originHeight=20&originWidth=78&status=done&width=78)](https://github.com/FEMessage/direct-mail/blob/master/LICENSE)
@@ -55,7 +55,8 @@ const singleConfig = {
   AccessKeyId: process.env.ACCESS_KEY_SECRET
 }
 
-directMail.single(singleConfig)
+directMail
+  .single(singleConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -73,7 +74,8 @@ const batchConfig = {
   AccessKeyId: process.env.ACCESS_KEY_SECRET
 }
 
-directMail.batch(batchConfig)
+directMail
+  .batch(batchConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -96,8 +98,8 @@ const config = {
 }
 
 directMail({
-  	action: 'single',
-  	config
+  action: 'single',
+  config
 })
   .then(resp => {})
   .catch(err => {})
@@ -129,7 +131,8 @@ const config = {
   HtmlBody: '<html>内容</html>'
 }
 
-directMail.single(config)
+directMail
+  .single(config)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -168,6 +171,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

@@ -1,6 +1,6 @@
 # direct-mail
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/06b730099b254208b079ba23b348e030)](https://app.codacy.com/app/FEMessage/direct-mail?utm_source=github.com&utm_medium=referral&utm_content=FEMessage/direct-mail&utm_campaign=Badge_Grade_Settings)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4c50d29f92ba4fdb81196dcbb679e37f)](https://www.codacy.com/manual/gd4Ark/direct-mail?utm_source=github.com&utm_medium=referral&utm_content=gd4Ark/direct-mail&utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.com/FEMessage/direct-mail.svg?branch=master)](https://travis-ci.com/FEMessage/direct-mail)
 [![NPM Download](https://img.shields.io/npm/dm/@femessage/direct-mail.svg)](https://www.npmjs.com/package/@femessage/direct-mail)
 [![NPM Version](https://img.shields.io/npm/v/@femessage/direct-mail.svg)](https://www.npmjs.com/package/@femessage/direct-mail)
@@ -58,7 +58,8 @@ const singleConfig = {
   AccessKeyId: process.env.ACCESS_KEY_SECRET
 }
 
-directMail.single(singleConfig)
+directMail
+  .single(singleConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -76,7 +77,8 @@ const batchConfig = {
   AccessKeyId: process.env.ACCESS_KEY_SECRET
 }
 
-directMail.batch(batchConfig)
+directMail
+  .batch(batchConfig)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -99,8 +101,8 @@ const config = {
 }
 
 directMail({
-  	action: 'single',
-  	config
+  action: 'single',
+  config
 })
   .then(resp => {})
   .catch(err => {})
@@ -132,7 +134,8 @@ const config = {
   HtmlBody: '<html>内容</html>'
 }
 
-directMail.single(config)
+directMail
+  .single(config)
   .then(resp => {})
   .catch(err => {})
 ```
@@ -173,6 +176,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
